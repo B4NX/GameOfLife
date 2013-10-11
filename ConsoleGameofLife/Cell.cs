@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace ConsoleGameofLife {
     public class Cell {
@@ -25,12 +26,24 @@ namespace ConsoleGameofLife {
             return;
         }
         private int getNeighborsAlive() {
+            //File.Create("Output.log");
+            //FileStream fs =File.OpenWrite("Output.log");
+
             int alive = 0;
 
             for (int i = row - 1; i <= row + 1; i++) {
                 for (int j = col - 1; j <= col + 1; j++) {
-                    if (GV.grid[i, j] != this && GV.grid[i, j].IsAlive) {
-                        alive++;
+                    try
+                    {
+                        if (Grid.grid[i, j] != this && Grid.grid[i, j].IsAlive)
+                        {
+                            alive++;
+                        }
+                    }
+                    catch (IndexOutOfRangeException e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e);
+                        continue;
                     }
                 }
             }
