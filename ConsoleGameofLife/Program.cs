@@ -6,13 +6,17 @@ using System.Text;
 namespace ConsoleGameofLife {
     class Program {
         static void Main(string[] args) {
-            Grid.Create();
-            Grid.printGrid();
-            //Console.ReadKey();
-            Console.WriteLine();
-            Grid.Update();
-            Grid.printGrid();
-            Console.ReadKey();
+            GridBuilder.MakeGrid("Banana.txt");
+
+        //    Grid.Create();
+        //    Console.WriteLine(Grid.ToString());
+
+        //    Console.WriteLine();
+
+        //    Grid.grid[0, 0].Update();
+        //    Console.WriteLine(Grid.ToString());
+
+        //    Console.ReadKey();
         }
     }
 }

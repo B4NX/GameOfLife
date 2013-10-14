@@ -16,6 +16,7 @@ namespace ConsoleGameofLife {
             this.row = r;
             this.col = c;
             this.neighbors = getNeighbors(r,c);
+            Console.Write("");
         }
         private static List<Tuple<int,int>> getNeighbors(int r, int c){
             List<Tuple<int, int>> temp = new List<Tuple<int, int>>();
@@ -28,12 +29,7 @@ namespace ConsoleGameofLife {
                     {
                         continue;
                     }
-                    if (r < 0 || c < 0)
-                    {
-                        continue;
-                    }
-                    if (r > Grid.grid.GetLength(0) || c > Grid.grid.GetLength(1))
-                    {
+                    if (!isValidIndex(row, col)) {
                         continue;
                     }
 
@@ -41,6 +37,14 @@ namespace ConsoleGameofLife {
                 }
             }
             return temp;
+        }
+        private static bool isValidIndex(int row,int col) {
+            if (row < 0 || col < 0) {
+                return false;
+            }else if(row>=Grid.grid.GetLength(0)||col>=Grid.grid.GetLength(1)){
+                return false;
+            }
+            return true;
         }
 
         public void Update() {
@@ -58,12 +62,9 @@ namespace ConsoleGameofLife {
 
             int alive = 0;
 
-            for (int i = row - 1; i <= row + 1; i++) {
-                for (int j = col - 1; j <= col + 1; j++) {
-                    if (Grid.grid[i, j] != this && Grid.grid[i, j].IsAlive)
-                    {
-                        alive--;
-                    }
+            foreach (Tuple<int, int> t in this.neighbors) {
+                if (Grid.grid[t.Item1, t.Item2].IsAlive) {
+                    alive++;
                 }
             }
 
