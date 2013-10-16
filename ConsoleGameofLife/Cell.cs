@@ -11,6 +11,21 @@ namespace ConsoleGameofLife {
         private int row, col;
         private List<Tuple<int, int>> neighbors;
 
+        public Cell(int i, int r, int c)
+        {
+            switch (i)
+            {
+                case(1):
+                    this.isAlive = true;
+                    break;
+                default:
+                    this.isAlive = false;
+                    break;
+            }
+            this.row = r;
+            this.col = c;
+            this.neighbors = getNeighbors(r, c);
+        }
         public Cell(bool isAlive, int r, int c) {
             this.isAlive = isAlive;
             this.row = r;
@@ -74,6 +89,15 @@ namespace ConsoleGameofLife {
         public bool IsAlive {
             get { return this.isAlive; }
             set { this.isAlive = value; }
+        }
+
+        public override string ToString()
+        {
+            if (this.isAlive)
+            {
+                return "1 ";
+            }
+            return "0 ";
         }
     }
 }

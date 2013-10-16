@@ -7,35 +7,78 @@ using System.IO;
 namespace ConsoleGameofLife {
     public static class GridBuilder {
 
-        public static void MakeGrid(string path) {
+        public static Cell[,] MakeGrid(string path) {
+            List<Cell> aliveList = new List<Cell>();
 
+            String[] wholeText = getFileTextArray(path);
+            int row, col;
+            List<Cell> cellList=getCellList(wholeText,out row, out col);
+            return getGrid(cellList, row, col);
+        }
+        /// <summary>
+        /// Generates a list of cells from a text array
+        /// </summary>
+        /// <param name="text">The text used to generate the list of cells</param>
+        /// <param name="row">The number of rows to be used in the grid</param>
+        /// <param name="col">The number of columns to be used in the grid</param>
+        /// <returns></returns>
+        private static List<Cell> getCellList(String[] text, out int row, out int col)
+        {
+            List<Cell> ls = new List<Cell>();
+            Char[] temp;
+            row = 0;
+            int j=0, k=0;
+            foreach (String s in text)
+            {
+                j++;
+                k = 0;
+                temp = s.ToArray();
+                for (int i = 0; i < temp.GetLength(0); i++)
+                {
+                    int num;
+                    if (Int32.TryParse(temp[i].ToString(), out num))
+                    {
+                        k++;
+                        ls.Add(new Cell(num, j, k));
+                    }
+                }
+            }
+            row = j;
+            col = k;
+            return ls;
+        }
+        private static String[] getFileTextArray(string path)
+        {
             string ft;
-            List<int> aliveList = new List<int>();
-
-            try {
+            try
+            {
                 ft = File.ReadAllText(path);
-            } catch (FileNotFoundException e) {
+            }
+            catch (FileNotFoundException e)
+            {
                 ft = "";
                 System.Diagnostics.Debug.Write(e);
                 Environment.Exit(-1);
             }
-
             String[] wholeText = ft.Split('\n');
-
-            Char[] temp;
-            int row=0, col=0;
-            foreach (String s in wholeText) {
-                row++;
-
-                temp = s.ToArray();
-                for (int i = 0; i < temp.GetLength(0); i++) {
-                    int num;
-                    if (Int32.TryParse(temp[i].ToString(),out num)) {
-                        col++;
-                        aliveList.Add(num);
-                    }
+            return wholeText;
+        }
+        private static Cell[,] getGrid(List<Cell> cells, int r, int c)
+        {
+            Cell[,] temp = new Cell[r, c];
+            int i = 0;
+            for (int row = 0; row <= r-1; row++)
+            {
+                for (int col = 0; col <= c-1; col++)
+                {
+                    //temp[row, col] = cells[i];
+                    Cell s = cells[i];
+                    Console.WriteLine(s.IsAlive);
+                    temp[row, col] = s;
+                    Console.ReadKey();
                 }
             }
+            return temp;
         }
     }
 }
