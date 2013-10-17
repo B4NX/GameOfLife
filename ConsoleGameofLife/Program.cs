@@ -8,6 +8,7 @@ namespace ConsoleGameofLife {
         static void Main(string[] args) {
             Cell[,] banana=GridBuilder.MakeGrid("Banana.txt");
 
+            
             Console.WriteLine();
             //Grid.Create();
             //Console.WriteLine(Grid.ToString());

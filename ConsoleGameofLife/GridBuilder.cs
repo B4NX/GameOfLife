@@ -8,20 +8,25 @@ namespace ConsoleGameofLife {
     public static class GridBuilder {
 
         public static Cell[,] MakeGrid(string path) {
-            List<Cell> aliveList = new List<Cell>();
-
             String[] wholeText = getFileTextArray(path);
             int row, col;
             List<Cell> cellList=getCellList(wholeText,out row, out col);
             return getGrid(cellList, row, col);
         }
-        /// <summary>
-        /// Generates a list of cells from a text array
-        /// </summary>
-        /// <param name="text">The text used to generate the list of cells</param>
-        /// <param name="row">The number of rows to be used in the grid</param>
-        /// <param name="col">The number of columns to be used in the grid</param>
-        /// <returns></returns>
+
+        private static String[] getFileTextArray(string path) {
+            string ft;
+            try {
+                ft = File.ReadAllText(path);
+            } catch (FileNotFoundException e) {
+                ft = "";
+                System.Diagnostics.Debug.Write(e);
+                Environment.Exit(-1);
+            }
+            String[] wholeText = ft.Split('\n');
+            return wholeText;
+        }
+
         private static List<Cell> getCellList(String[] text, out int row, out int col)
         {
             List<Cell> ls = new List<Cell>();
@@ -47,22 +52,7 @@ namespace ConsoleGameofLife {
             col = k;
             return ls;
         }
-        private static String[] getFileTextArray(string path)
-        {
-            string ft;
-            try
-            {
-                ft = File.ReadAllText(path);
-            }
-            catch (FileNotFoundException e)
-            {
-                ft = "";
-                System.Diagnostics.Debug.Write(e);
-                Environment.Exit(-1);
-            }
-            String[] wholeText = ft.Split('\n');
-            return wholeText;
-        }
+        
         private static Cell[,] getGrid(List<Cell> cells, int r, int c)
         {
             Cell[,] temp = new Cell[r, c];
@@ -71,11 +61,7 @@ namespace ConsoleGameofLife {
             {
                 for (int col = 0; col <= c-1; col++)
                 {
-                    //temp[row, col] = cells[i];
-                    Cell s = cells[i];
-                    Console.WriteLine(s.IsAlive);
-                    temp[row, col] = s;
-                    Console.ReadKey();
+                    temp[row, col] = cells[i++];
                 }
             }
             return temp;
